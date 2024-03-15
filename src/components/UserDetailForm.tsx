@@ -1,40 +1,58 @@
-import { Button, Heading, Input, Select, Stack, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Grid,
+  Heading,
+  Input,
+  Select,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 
 const UserDetailForm: React.FC = () => {
   return (
     <Stack
-      spacing={2}
-      padding={2}
+      spacing={4}
+      padding={4}
       backgroundColor="aliceblue"
-      borderRadius={4}
+      borderRadius={8}
       maxWidth="fit-content"
     >
-      <Heading>Basic Details</Heading>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Heading fontSize="md">Basic Details</Heading>
+      <Grid templateColumns="repeat(2, 1fr)" gap={4}>
         <Stack gap={1}>
-          <Text textAlign="start">First Name</Text>
+          <Text textAlign="start" as="b" fontSize="sm">
+            First Name
+          </Text>
           <Input size="md" placeholder="First Name" />
         </Stack>
         <Stack gap={1}>
-          <Text textAlign="start">Last Name</Text>
+          <Text textAlign="start" as="b" fontSize="sm">
+            Last Name
+          </Text>
           <Input size="md" placeholder="Last Name" />
         </Stack>
-      </Stack>
-      <Heading>Other Information</Heading>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
+      </Grid>
+      <Heading fontSize="md">Other Information</Heading>
+      <Grid templateColumns="repeat(2, 1fr)" gap={4}>
         <Stack gap={1}>
-          <Text>Gender</Text>
+          <Text textAlign="start" as="b" fontSize="sm">
+            Gender
+          </Text>
           <Select size="md" placeholder="Select Gender" />
         </Stack>
         <Stack gap={1}>
-          <Text>Date of Birth</Text>
+          <Text textAlign="start" as="b" fontSize="sm">
+            Date of Birth
+          </Text>
           <Input size="md" type="date" placeholder="DD / MM / YYYY" />
         </Stack>
         <Stack gap={1}>
-          <Text>Teck Stack</Text>
+          <Text textAlign="start" as="b" fontSize="sm">
+            Teck Stack
+          </Text>
           <Input size="md" placeholder="Enter Teck Stack" />
         </Stack>
-      </Stack>
+      </Grid>
       <Button
         type="submit"
         size="md"
