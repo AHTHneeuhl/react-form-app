@@ -9,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { OptionProps, Select, chakraComponents } from "chakra-react-select";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { GiCherry, GiCoffeeBeans, GiStrawberry } from "react-icons/gi";
 
 const genderOptions = [
@@ -35,7 +35,7 @@ interface IFormValues {
   lastName: string;
   gender: string;
   dateOfBirth: string;
-  techStack: string;
+  techStack: string[];
 }
 
 const customComponents = {
@@ -48,10 +48,18 @@ const customComponents = {
 
 const UserDetailForm: React.FC = () => {
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
-  } = useForm<IFormValues>();
+  } = useForm<IFormValues>({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      gender: "",
+      dateOfBirth: "",
+      techStack: [],
+    },
+  });
 
   const onSubmit: SubmitHandler<IFormValues> = (data) => console.log(data);
 
@@ -71,11 +79,14 @@ const UserDetailForm: React.FC = () => {
           <Text textAlign="start" as="b" fontSize="sm">
             First Name
           </Text>
-          <Input
-            size="md"
-            placeholder="First Name"
-            {...register("firstName", { required: true })}
+          <Controller
+            name="firstName"
+            control={control}
+            render={({ field }) => (
+              <Input size="md" placeholder="First Name" {...field} />
+            )}
           />
+
           {errors.firstName && (
             <FormErrorMessage>This field is required</FormErrorMessage>
           )}
@@ -84,10 +95,12 @@ const UserDetailForm: React.FC = () => {
           <Text textAlign="start" as="b" fontSize="sm">
             Last Name
           </Text>
-          <Input
-            size="md"
-            placeholder="Last Name"
-            {...register("lastName", { required: true })}
+          <Controller
+            name="lastName"
+            control={control}
+            render={({ field }) => (
+              <Input size="md" placeholder="Last Name" {...field} />
+            )}
           />
           {errors.lastName && (
             <FormErrorMessage>This field is required</FormErrorMessage>
@@ -100,33 +113,47 @@ const UserDetailForm: React.FC = () => {
           <Text textAlign="start" as="b" fontSize="sm">
             Gender
           </Text>
-          <Select
+          <Controller
             name="gender"
-            options={genderOptions}
-            placeholder="Select Gender"
-            components={customComponents}
-            // {...register("gender", { required: true })}
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={genderOptions}
+                placeholder="Select Gender"
+                components={customComponents}
+                // {...register("gender", { required: true })}
+              />
+            )}
           />
         </Stack>
         <Stack gap={1}>
           <Text textAlign="start" as="b" fontSize="sm">
             Date of Birth
           </Text>
-          <Input
-            size="md"
-            type="date"
-            placeholder="DD / MM / YYYY"
-            {...register("dateOfBirth", { required: true })}
+          <Controller
+            name="dateOfBirth"
+            control={control}
+            render={({ field }) => (
+              <Input
+                size="md"
+                type="date"
+                placeholder="DD / MM / YYYY"
+                {...field}
+              />
+            )}
           />
         </Stack>
         <Stack gap={1}>
           <Text textAlign="start" as="b" fontSize="sm">
             Teck Stack
           </Text>
-          <Input
-            size="md"
-            placeholder="Enter Teck Stack"
-            {...register("techStack", { required: true })}
+          <Controller
+            name="techStack"
+            control={control}
+            render={({ field }) => (
+              <Input size="md" placeholder="Enter Teck Stack" {...field} />
+            )}
           />
         </Stack>
       </Grid>
