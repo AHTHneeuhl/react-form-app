@@ -3,45 +3,46 @@ import {
   FormErrorMessage,
   Grid,
   Heading,
-  Icon,
   Input,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { OptionProps, Select, chakraComponents } from "chakra-react-select";
+import { OptionProps, chakraComponents, Select } from "chakra-react-select";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { GiCherry, GiCoffeeBeans, GiStrawberry } from "react-icons/gi";
+import { CheckIcon } from "@chakra-ui/icons";
 
 const genderOptions = [
   {
     label: "Male",
     value: "male",
-    icon: <Icon as={GiCoffeeBeans} color="orange.700" mr={2} h={5} w={5} />,
   },
   {
     label: "Female",
     value: "female",
-    icon: <Icon as={GiStrawberry} color="red.500" mr={2} h={5} w={5} />,
   },
   {
     label: "Other",
     value: "other",
-    icon: <Icon as={GiCherry} color="yellow.500" mr={2} h={5} w={5} />,
   },
 ];
+
+type TGender = {
+  label: string;
+  value: string;
+};
 
 interface IFormValues {
   firstName: string;
   lastName: string;
-  gender: string;
+  gender: TGender[];
   dateOfBirth: string;
   techStack: string[];
 }
 
 const customComponents = {
-  Option: ({ children, data, ...props }: OptionProps<any, boolean, any>) => (
-    <chakraComponents.Option {...props} data={data}>
-      {children} {data.icon}
+  Option: ({ children, ...props }: OptionProps) => (
+    <chakraComponents.Option {...props}>
+      {children} {props.isSelected && <CheckIcon />}
     </chakraComponents.Option>
   ),
 };
@@ -55,7 +56,7 @@ const UserDetailForm: React.FC = () => {
     defaultValues: {
       firstName: "",
       lastName: "",
-      gender: "",
+      gender: [],
       dateOfBirth: "",
       techStack: [],
     },
@@ -122,7 +123,6 @@ const UserDetailForm: React.FC = () => {
                 options={genderOptions}
                 placeholder="Select Gender"
                 components={customComponents}
-                // {...register("gender", { required: true })}
               />
             )}
           />
