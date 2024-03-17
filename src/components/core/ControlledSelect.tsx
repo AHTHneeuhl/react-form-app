@@ -27,17 +27,15 @@ function ControlledSelect<
   options,
   control,
   rules,
-  shouldUnregister,
   ...selectProps
 }: ControlledSelectProps<FormValues, Option, IsMulti, Group>) {
   const {
-    field, // contains: onChange, onBlur, value, name, ref
+    field,
     fieldState: { error },
   } = useController<FormValues>({
     name,
     control,
     rules,
-    shouldUnregister,
   });
 
   return (

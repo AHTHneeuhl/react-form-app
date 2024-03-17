@@ -1,15 +1,14 @@
 import {
   Button,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Grid,
   Heading,
   Input,
   Stack,
 } from "@chakra-ui/react";
+import { ControlledInput, ControlledSelect } from "components/core";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { ControlledSelect } from "components/core";
 
 const genderOptions = [
   {
@@ -71,25 +70,19 @@ const UserDetailForm: React.FC = () => {
     >
       <Heading fontSize="md">Basic Details</Heading>
       <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-        <FormControl id="firstName" isInvalid={!!errors.firstName}>
-          <FormLabel>First Name</FormLabel>
-          <Input
-            placeholder="First Name"
-            type="text"
-            {...register("firstName")}
-          />
-          <FormErrorMessage>{errors.firstName?.message}</FormErrorMessage>
-        </FormControl>
+        <ControlledInput
+          name="firstName"
+          label="First Name"
+          placeholder="First Name"
+          control={control}
+        />
 
-        <FormControl id="lastName" isInvalid={!!errors.lastName}>
-          <FormLabel>Last Name</FormLabel>
-          <Input
-            placeholder="Last Name"
-            type="text"
-            {...register("lastName")}
-          />
-          <FormErrorMessage>{errors.lastName?.message}</FormErrorMessage>
-        </FormControl>
+        <ControlledInput
+          name="lastName"
+          label="Last Name"
+          placeholder="Last Name"
+          control={control}
+        />
       </Grid>
       <Heading fontSize="md">Other Information</Heading>
       <Grid templateColumns="repeat(2, 1fr)" gap={4}>
