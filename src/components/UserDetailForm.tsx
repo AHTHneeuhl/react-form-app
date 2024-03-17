@@ -1,15 +1,15 @@
 import {
   Button,
+  FormControl,
   FormErrorMessage,
+  FormLabel,
   Grid,
   Heading,
   Input,
   Stack,
-  Text,
 } from "@chakra-ui/react";
-import { OptionProps, chakraComponents, Select } from "chakra-react-select";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { CheckIcon } from "@chakra-ui/icons";
+import { ControlledSelect } from "components/core";
 
 const genderOptions = [
   {
@@ -39,27 +39,22 @@ interface IFormValues {
   techStack: string[];
 }
 
-const customComponents = {
-  Option: ({ children, ...props }: OptionProps) => (
-    <chakraComponents.Option {...props}>
-      {children} {props.isSelected && <CheckIcon />}
-    </chakraComponents.Option>
-  ),
+const defaultFormValues: IFormValues = {
+  firstName: "",
+  lastName: "",
+  gender: [],
+  dateOfBirth: "",
+  techStack: [],
 };
 
 const UserDetailForm: React.FC = () => {
   const {
     control,
+    register,
     handleSubmit,
     formState: { errors },
   } = useForm<IFormValues>({
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      gender: [],
-      dateOfBirth: "",
-      techStack: [],
-    },
+    defaultValues: defaultFormValues,
   });
 
   const onSubmit: SubmitHandler<IFormValues> = (data) => console.log(data);
@@ -76,61 +71,38 @@ const UserDetailForm: React.FC = () => {
     >
       <Heading fontSize="md">Basic Details</Heading>
       <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-        <Stack gap={1}>
-          <Text textAlign="start" as="b" fontSize="sm">
-            First Name
-          </Text>
-          <Controller
-            name="firstName"
-            control={control}
-            render={({ field }) => (
-              <Input size="md" placeholder="First Name" {...field} />
-            )}
+        <FormControl id="firstName" isInvalid={!!errors.firstName}>
+          <FormLabel>First Name</FormLabel>
+          <Input
+            placeholder="First Name"
+            type="text"
+            {...register("firstName")}
           />
+          <FormErrorMessage>{errors.firstName?.message}</FormErrorMessage>
+        </FormControl>
 
-          {errors.firstName && (
-            <FormErrorMessage>This field is required</FormErrorMessage>
-          )}
-        </Stack>
-        <Stack gap={1}>
-          <Text textAlign="start" as="b" fontSize="sm">
-            Last Name
-          </Text>
-          <Controller
-            name="lastName"
-            control={control}
-            render={({ field }) => (
-              <Input size="md" placeholder="Last Name" {...field} />
-            )}
+        <FormControl id="lastName" isInvalid={!!errors.lastName}>
+          <FormLabel>Last Name</FormLabel>
+          <Input
+            placeholder="Last Name"
+            type="text"
+            {...register("lastName")}
           />
-          {errors.lastName && (
-            <FormErrorMessage>This field is required</FormErrorMessage>
-          )}
-        </Stack>
+          <FormErrorMessage>{errors.lastName?.message}</FormErrorMessage>
+        </FormControl>
       </Grid>
       <Heading fontSize="md">Other Information</Heading>
       <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-        <Stack gap={1}>
-          <Text textAlign="start" as="b" fontSize="sm">
-            Gender
-          </Text>
-          <Controller
-            name="gender"
-            control={control}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={genderOptions}
-                placeholder="Select Gender"
-                components={customComponents}
-              />
-            )}
-          />
-        </Stack>
-        <Stack gap={1}>
-          <Text textAlign="start" as="b" fontSize="sm">
-            Date of Birth
-          </Text>
+        <ControlledSelect<IFormValues, TGender, false>
+          name="gender"
+          control={control}
+          label="Select Gender"
+          placeholder="Select Gender"
+          options={genderOptions}
+        />
+
+        <FormControl id="dateOfBirth" isInvalid={!!errors.dateOfBirth}>
+          <FormLabel>Date of Birth</FormLabel>
           <Controller
             name="dateOfBirth"
             control={control}
@@ -143,19 +115,16 @@ const UserDetailForm: React.FC = () => {
               />
             )}
           />
-        </Stack>
-        <Stack gap={1}>
-          <Text textAlign="start" as="b" fontSize="sm">
-            Teck Stack
-          </Text>
-          <Controller
-            name="techStack"
-            control={control}
-            render={({ field }) => (
-              <Input size="md" placeholder="Enter Teck Stack" {...field} />
-            )}
+        </FormControl>
+
+        <FormControl id="techStack" isInvalid={!!errors.techStack}>
+          <FormLabel>Teck Stack</FormLabel>
+          <Input
+            placeholder="Tech Stack"
+            type="text"
+            {...register("techStack")}
           />
-        </Stack>
+        </FormControl>
       </Grid>
       <Button
         type="submit"
