@@ -45,6 +45,30 @@ function ControlledSelect<
         options={options}
         {...selectProps}
         {...field}
+        chakraStyles={{
+          option: (props) => ({
+            ...props,
+            _selected: {
+              backgroundColor: "teal.100",
+              color: "teal.900",
+              position: "relative",
+              paddingRight: "24px",
+              "::after": {
+                content: '""',
+                position: "absolute",
+                top: "50%",
+                right: "8px",
+                transform: "translateY(-50%)",
+                width: "16px",
+                height: "16px",
+                backgroundImage:
+                  'url("https://upload.wikimedia.org/wikipedia/commons/0/03/Green_check.svg")',
+                backgroundSize: "cover",
+                zIndex: 1,
+              },
+            },
+          }),
+        }}
       />
       <FormErrorMessage>{error?.message}</FormErrorMessage>
     </FormControl>
